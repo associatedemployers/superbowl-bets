@@ -1,0 +1,56 @@
+<h3 class="text-center">
+  Place ye bets, {{user.firstName}} {{user.lastName}}<br />
+  <small class="text-success">You have {{remaining}} superbowl bucks to spend</small>
+</h3>
+
+{{#each proposition in controller}}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4>
+        Proposition #{{proposition.propNumber}}: {{proposition.title}}
+        {{#if proposition.helper}}
+          <br />
+          <small><i class="fa fa-fw fa-info-circle"></i> {{proposition.helper}}</small>
+        {{/if}}
+      </h4>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-6">
+          <ul class="choice-list reset-list no-list-style">
+            {{#each choice in proposition.choices itemController="choice"}}
+              <li class="choice-item">
+                <label>
+                  {{view "radio-button" name=proposition.id selectionBinding="proposition.selectedChoice" value=choice.id}} {{choice.title}} ({{choice.betPercentage}}% of betters)
+                </label>
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+        <div class="col-md-6">
+          {{#if proposition.computedChoice}}
+            <h4>Superbowl Bucks Wager - {{proposition.computedChoiceType}} <span class="text-success">{{remaining}}sb left</span></h4>
+            <div class="form-control">
+              {{input type="number" class="form-control" value=proposition.wager placeholder="Superbowl Bucks Wager"}}
+            </div>
+            <br />
+            {{#if proposition.wager}}
+              <p class="text-center">
+                You are placing a wager on a {{proposition.computedChoice.oddsNmr}}/{{proposition.computedChoice.oddsDmr}} odds choice. Your maximum winning return for {{proposition.wager}}sb is {{proposition.wagerReturn}}sb
+              </p>
+            {{/if}}
+          {{else}}
+            <p class="text-center">Select a choice to set your wager</p>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+{{else}}
+  <h2><i class="fa fa-exclamation-triangle"></i> There are no propositions to bet on at this time!</h2>
+{{/each}}
+<hr />
+<button class="btn btn-lg btn-block btn-danger" {{action "submitBets"}}>
+  Submit all bets<br />
+  <span class="text-small">You cannot change bets after submitting!</span>
+</button>

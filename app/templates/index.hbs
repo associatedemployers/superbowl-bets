@@ -1,0 +1,29 @@
+<div class="panel panel-default login-panel">
+  <div class="panel-heading">
+    <h3>Enter your stuff</h3>
+  </div>
+  <div class="panel-body">
+    <form {{action "validate" on="submit"}}>
+      <div class="form-group">
+        {{input class="form-control input-lg" value=firstName placeholder="First Name"}}
+      </div>
+      <div class="form-group">
+        {{input class="form-control input-lg" value=lastName placeholder="Last Name"}}
+      </div>
+      <hr />
+      {{#if validateError}}
+        <p class="text-center text-danger">
+          <strong>Uh oh.</strong> {{validateError}}
+        </p>
+      {{/if}}
+      <button type="submit" class="btn btn-block btn-lg btn-success" {{bind-attr disabled=notAllowSubmit}}>
+        {{#if validating}}
+          Validating...
+          <i class="fa fa-spin fa-spinner"></i>
+        {{else}}
+          Begin
+        {{/if}}
+      </button>
+    </form>
+  </div>
+</div>
