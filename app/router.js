@@ -7,6 +7,12 @@ var Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route("bet");
+
+  this.route("success", {
+    path: "/bet/success"
+  });
+
+  this.route("view-bets");
 });
 
 export default Router;

@@ -49,7 +49,7 @@ export default Ember.ObjectController.extend({
         oddsD    = choice.get('oddsDmr'),
         quotient = oddsN / oddsD;
 
-    return Math.floor(( ( quotient < 1 ) ? ( wager / oddsD ) * oddsN : ( wager / oddsN ) * oddsD ) + wager);
+    return Math.floor(quotient > 1 ? quotient * wager : (quotient * wager) + wager);
   }.property('computedChoice', 'wager'),
 
   _validateWager: function () {

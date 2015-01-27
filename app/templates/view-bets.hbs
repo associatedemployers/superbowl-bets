@@ -1,0 +1,17 @@
+{{#each betChoice in content.choices}}
+  <div class="bet">
+    <div class="bet-title">
+      <h4>{{betChoice.proposition.title}}</h4>
+    </div>
+    <div class="bet-body">
+      {{#if betChoice.choice}}
+        <h5>You bet <span class="label label-success">${{betChoice.wager}}</span> on <span class="label label-danger">{{betChoice.choice.title}}</span> ({{betChoice.choice.oddsNmr}}/{{betChoice.choice.oddsDmr}} odds)</h5>
+      {{else}}
+        <p class="text-danger">No bet on this proposition.</p>
+      {{/if}}
+    </div>
+  </div>
+  <hr />
+{{else}}
+  <h2><i class="fa fa-fw fa-exclamation-triangle"></i> No bets to show.</h2>
+{{/each}}

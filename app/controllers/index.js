@@ -28,8 +28,11 @@ export default Ember.Controller.extend({
       Ember.$.getJSON('/api/validate', data).then(function ( res ) {
         if( res.status === 'ok' ) {
           self.set('validating', false);
-          self.get('controllers.application').set('user', res.user);
-          self.transitionToRoute('bet');
+          self.get('controllers.application').setProperties({
+            user: res.user,
+            bet:  res.bet
+          });
+          self.transitionToRoute( ( res.bet ) ? 'view-bets' : 'bet' );
         } else {
           reject( res.error );
         }

@@ -49,7 +49,13 @@
 {{else}}
   <h2><i class="fa fa-exclamation-triangle"></i> There are no propositions to bet on at this time!</h2>
 {{/each}}
+
 <hr />
+
+{{#if bettingError}}
+  <p class="text-center text-danger"><strong>Error Submitting</strong> {{{bettingError}}}</p>
+{{/if}}
+
 <button class="btn btn-lg btn-block btn-danger" {{action "submitBets"}}>
   Submit all bets<br />
   <span class="text-small">You cannot change bets after submitting!</span>

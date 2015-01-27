@@ -38,13 +38,17 @@ export default Ember.ArrayController.extend({
         if ( err ) {
           err = ( typeof err === 'object' ) ? ( err.responseText ) ? err.responseText : err.statusText : err;
         }
+
         self.setProperties({
           betting:      false,
           bettingError: err
         });
       };
 
-      this.set('betting', true);
+      this.setProperties({
+        betting:      true,
+        bettingError: null
+      });
 
       if( remaining > 0 && !confirm('You have ' + remaining + 'sb remaining. Are you sure you want to submit your bets?') ) {
         return cancel();
@@ -53,9 +57,18 @@ export default Ember.ArrayController.extend({
       var props = this.get('_subControllers'),
           user  = this.get('user');
 
-      Ember.$.post('/api/bet', { user: user.get('id'), propositions: props }).then(function ( status ) {
-        
-      }).fail(cancel);
+      var bets = props.map(function ( prop ) {
+        return {
+          choice:      prop.get('computedChoice.id'),
+          wager:       prop.get('wager'),
+          proposition: prop.get('content.id')
+        };
+      });
+
+      Ember.$.post('/api/bets', { user: user.id, propositions: bets }).then(function () {
+        self.set('betting', false);
+        self.transitionToRoute('success');
+      }, cancel);
     }
   }
 });
